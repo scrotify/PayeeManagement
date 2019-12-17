@@ -36,8 +36,10 @@ public class Beneficiary implements Serializable {
 
 	@Column(name = "nick_name")
 	private String nickName;
-
-	@OneToOne
-	@JoinColumn(name = "bankId")
-	private Bank bank;
+	@Column(name = "bank_name")
+	private String bankName;
+	@Column(name = "ibank_ifsccode")
+	private String bankIfscCode;
+	@Column(name="customer_id")
+	private Long customerId;
 }

@@ -1,8 +1,11 @@
 package com.scrotifybanking.payeemanagement.web;
 
 import com.scrotifybanking.payeemanagement.dto.ApiResponse;
+import com.scrotifybanking.payeemanagement.dto.BeneficiaryUpdateRequestDto;
+import com.scrotifybanking.payeemanagement.dto.BeneficiaryUpdateResponseDto;
 import com.scrotifybanking.payeemanagement.dto.DeleteBeneficiaryDto;
 import com.scrotifybanking.payeemanagement.service.BeneficiaryServiceImpl;
+import com.scrotifybanking.payeemanagement.util.ScrotifyConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,25 +31,32 @@ public class BeneficiaryController {
      * @param deleteBeneficiaryDto the delete beneficiary dto
      * @return the response entity
      */
-    @DeleteMapping   
+    @DeleteMapping
     public ResponseEntity<ApiResponse> deleteBeneficiary(@RequestBody DeleteBeneficiaryDto deleteBeneficiaryDto) {
         ApiResponse response = new ApiResponse();
         logger.info("Entering into delete Beneficiary ID :" + deleteBeneficiaryDto.getBeneficiaryId());
         beneficiaryService.deleteBeneficiaryById(deleteBeneficiaryDto.getBeneficiaryId(), deleteBeneficiaryDto.getCustomerId());
-        response.setMessage(com.scrotifybanking.payeemanagement.web.ScrotifyConstant.SUCCESS_MESSAGE);
-        response.setStatusCode(com.scrotifybanking.payeemanagement.web.ScrotifyConstant.SUCCESS_CODE);
+        response.setMessage(ScrotifyConstant.SUCCESS_MESSAGE);
+        response.setStatusCode(ScrotifyConstant.SUCCESS_CODE);
         logger.info("Deleted successfully ");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-	
-	@PutMapping
-public BeneficiaryUpdateResponseDto updateBeneficiary(@RequestBody BeneficiaryUpdateRequestDto beneficiaryUpdateRequestDto)
-		throws Exception {
-	BeneficiaryUpdateResponseDto beneficiaryUpdateResponseDto=beneficiaryService.updateBeneficiary(beneficiaryUpdateRequestDto);
-	beneficiaryUpdateResponseDto.setMessage("updated successfully");
-	beneficiaryUpdateResponseDto.setStatusCode(201);
-	return beneficiaryUpdateResponseDto;
-}
+
+    /**
+     * Update beneficiary beneficiary update response dto.
+     *
+     * @param beneficiaryUpdateRequestDto the beneficiary update request dto
+     * @return the beneficiary update response dto
+     * @throws Exception the exception
+     */
+    @PutMapping
+    public BeneficiaryUpdateResponseDto updateBeneficiary(@RequestBody BeneficiaryUpdateRequestDto beneficiaryUpdateRequestDto)
+            throws Exception {
+        BeneficiaryUpdateResponseDto beneficiaryUpdateResponseDto = beneficiaryService.updateBeneficiary(beneficiaryUpdateRequestDto);
+        beneficiaryUpdateResponseDto.setMessage("updated successfully");
+        beneficiaryUpdateResponseDto.setStatusCode(201);
+        return beneficiaryUpdateResponseDto;
+    }
 
 
 }

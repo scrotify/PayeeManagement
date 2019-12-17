@@ -1,6 +1,11 @@
 package com.scrotifybanking.payeemanagement.service;
 
 
+import com.scrotifybanking.payeemanagement.dto.BeneficiaryUpdateRequestDto;
+import com.scrotifybanking.payeemanagement.dto.BeneficiaryUpdateResponseDto;
+import com.scrotifybanking.payeemanagement.entity.Bank;
+import com.scrotifybanking.payeemanagement.entity.Beneficiary;
+import com.scrotifybanking.payeemanagement.repository.BankRepository;
 import com.scrotifybanking.payeemanagement.repository.BeneficiaryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +21,7 @@ import java.util.Optional;
  * @author Mahendran
  */
 @Service
-public class BeneficiaryServiceImpl implements BeneficiaryService{
+public class BeneficiaryServiceImpl implements BeneficiaryService {
 
     /**
      * The constant logger.
@@ -28,9 +33,9 @@ public class BeneficiaryServiceImpl implements BeneficiaryService{
      */
     @Autowired
     BeneficiaryRepository beneficiaryRepository;
-	 
-	@Autowired
-	BankRepository bankRepository;
+
+    @Autowired
+    BankRepository bankRepository;
 
 
     /**
@@ -41,8 +46,9 @@ public class BeneficiaryServiceImpl implements BeneficiaryService{
      * @return the optional
      */
     @Transactional
+    @Override
     public Optional<Boolean> deleteBeneficiaryById(Long beneficiaryId, Long customerId) {
-        logger.info("Deleting the beneficiary by id :" + beneficiaryId +" for " + customerId);
+        logger.info("Deleting the beneficiary by id :" + beneficiaryId + " for " + customerId);
         Optional<Boolean> deleteOptional = beneficiaryRepository.deleteByBeneficiaryIdAndCustomerCustomerId(beneficiaryId, customerId);
         logger.info("Deleted the beneficiary ");
         if (deleteOptional.isPresent()) {
@@ -50,51 +56,52 @@ public class BeneficiaryServiceImpl implements BeneficiaryService{
         }
         return Optional.ofNullable(false);
     }
-	
-	
-	@Override
-	public BeneficiaryUpdateResponseDto updateBeneficiary(BeneficiaryUpdateRequestDto beneficiaryUpdateRequestDto)
-			throws Exception {
-		
-		BeneficiaryUpdateResponseDto beneficiaryUpdateResponseDto = new BeneficiaryUpdateResponseDto();
-		Optional<Beneficiary> optionalUser = beneficiaryRepository
-				.findByCustomerId(beneficiaryUpdateRequestDto.getCustomerId());
-		if (optionalUser.isPresent()) {
-			Beneficiary beneficiary = optionalUser.get();
-			if (beneficiaryUpdateRequestDto.getAccountNo() != null) {
-				beneficiary.setBeneficiaryAccountNumber(beneficiaryUpdateRequestDto.getAccountNo());
-				beneficiaryRepository.save(beneficiary);
-				
-			}
-			if (beneficiaryUpdateRequestDto.getAmountLimit()!= null) {
-				beneficiary.setAmountLimit(beneficiaryUpdateRequestDto.getAmountLimit());
-				beneficiaryRepository.save(beneficiary);
-			
-			}
-			Optional<Bank> bankDeatils=bankRepository.findByBankName(beneficiaryUpdateRequestDto.getBankName());
-			if(beneficiaryUpdateRequestDto.getBankName()!=null) {
-				if(bankDeatils.get().getBankName().equalsIgnoreCase(beneficiaryUpdateRequestDto.getBankName())){
-					beneficiary.setBankName(beneficiaryUpdateRequestDto.getBankName());
-					beneficiaryRepository.save(beneficiary);
-				
-				}else {
-					throw new Exception("invalid bank name/bank name doesn't exit");
-				}
-				
-			}if(beneficiaryUpdateRequestDto.getBankIfscCode()!=null) {
-				if(bankDeatils.get().getBankIfscCode().equalsIgnoreCase(beneficiaryUpdateRequestDto.getBankIfscCode())) {
-					beneficiary.setBankIfscCode(beneficiaryUpdateRequestDto.getBankIfscCode());
-					beneficiaryRepository.save(beneficiary);
-					beneficiaryUpdateResponseDto.setMessage("updated successfully");
-				}else {
-					throw new Exception("invalid ifsc code/ifsc code doesn't exit ");
-				}
-				
-			}
-		} else {
-			throw new Exception("customer doesn't have beneficiary details");
-		}
-		return beneficiaryUpdateResponseDto;
-	}
+
+
+    @Override
+    public BeneficiaryUpdateResponseDto updateBeneficiary(BeneficiaryUpdateRequestDto beneficiaryUpdateRequestDto)
+            throws Exception {
+
+        BeneficiaryUpdateResponseDto beneficiaryUpdateResponseDto = new BeneficiaryUpdateResponseDto();
+        Optional<Beneficiary> optionalUser = beneficiaryRepository
+                .findByCustomerId(beneficiaryUpdateRequestDto.getCustomerId());
+        if (optionalUser.isPresent()) {
+            Beneficiary beneficiary = optionalUser.get();
+            if (beneficiaryUpdateRequestDto.getAccountNo() != null) {
+                beneficiary.setBeneficiaryAccountNumber(beneficiaryUpdateRequestDto.getAccountNo());
+                beneficiaryRepository.save(beneficiary);
+
+            }
+            if (beneficiaryUpdateRequestDto.getAmountLimit() != null) {
+                beneficiary.setAmountLimit(beneficiaryUpdateRequestDto.getAmountLimit());
+                beneficiaryRepository.save(beneficiary);
+
+            }
+            Optional<Bank> bankDeatils = bankRepository.findByBankName(beneficiaryUpdateRequestDto.getBankName());
+            if (beneficiaryUpdateRequestDto.getBankName() != null) {
+                if (bankDeatils.get().getBankName().equalsIgnoreCase(beneficiaryUpdateRequestDto.getBankName())) {
+                    beneficiary.setBankName(beneficiaryUpdateRequestDto.getBankName());
+                    beneficiaryRepository.save(beneficiary);
+
+                } else {
+                    throw new Exception("invalid bank name/bank name doesn't exit");
+                }
+
+            }
+            if (beneficiaryUpdateRequestDto.getBankIfscCode() != null) {
+                if (bankDeatils.get().getBankIfscCode().equalsIgnoreCase(beneficiaryUpdateRequestDto.getBankIfscCode())) {
+                    beneficiary.setBankIfscCode(beneficiaryUpdateRequestDto.getBankIfscCode());
+                    beneficiaryRepository.save(beneficiary);
+                    beneficiaryUpdateResponseDto.setMessage("updated successfully");
+                } else {
+                    throw new Exception("invalid ifsc code/ifsc code doesn't exit ");
+                }
+
+            }
+        } else {
+            throw new Exception("customer doesn't have beneficiary details");
+        }
+        return beneficiaryUpdateResponseDto;
+    }
 
 }

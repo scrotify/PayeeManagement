@@ -40,4 +40,9 @@ public class Beneficiary implements Serializable {
 	@OneToOne
 	@JoinColumn(name = "bankId")
 	private Bank bank;
+
+	@ManyToOne
+	@JoinColumn(name = "customerId")
+	private Customer customer;
+
 }

@@ -131,13 +131,12 @@ public final class ScrotifyConstant {
 	 * The constant INVALID_BANK.
 	 */
 	public static final String INVALID_BANK = "Invalid ifsc code for bank name ";
-
 	
+	public static final String NO_BENEFICIARY_ADDED = "No beneficiaries have added";
 
 	public static final String MORTGAGE_ACCOUNT_TYPE = "Mortgage";
 
 	public static final String ACCOUNT_NOT_FOUND = "Account number not found";
-
 
 	private ScrotifyConstant() {
 

@@ -14,5 +14,5 @@ public interface BeneficiaryRepository extends JpaRepository<Beneficiary, Long> 
 	Beneficiary findByBeneficiaryAccountNumber(Long beneficiaryAccountNo);
 
 	List<Beneficiary> findByCustomerCustomerId(Long customerId);
-
+	
 }

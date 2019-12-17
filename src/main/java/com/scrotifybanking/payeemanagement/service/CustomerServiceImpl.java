@@ -6,7 +6,8 @@ import com.scrotifybanking.payeemanagement.dto.LoginResponseDto;
 import com.scrotifybanking.payeemanagement.entity.Customer;
 import com.scrotifybanking.payeemanagement.exception.CustomException;
 import com.scrotifybanking.payeemanagement.repository.CustomerRepository;
-import com.scrotifybanking.payeemanagement.web.ScrotifyConstant;
+import com.scrotifybanking.payeemanagement.util.ScrotifyConstant;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;

@@ -6,7 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.scrotifybanking.payeemanagement.entity.Customer;
+import com.scrotifybanking.payeemanagement.entity.Customer;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 
 /**
  * Customer Repository has one method.
@@ -27,10 +31,10 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 	/**
 	 * Find by customer id optional.
 	 *
-	 * @param customerId the customer id
+	 * Find by customer id optional.
+	 *
+	 * @param id the id
 	 * @return the optional
 	 */
 	Optional<Customer> findByCustomerId(Long id);
-
-
 }

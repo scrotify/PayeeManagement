@@ -55,4 +55,10 @@ public class Beneficiary implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "customerId")
 	private Customer customer;
+
+	@ManyToOne
+	@JoinColumn(name = "customerId")
+	private Customer customer;
+
+
 }

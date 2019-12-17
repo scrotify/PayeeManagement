@@ -1,4 +1,4 @@
-package com.scrotifybanking.scrotifybanking.web;
+package com.scrotifybanking.payeemanagement.web;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -1,4 +1,4 @@
-package com.scrotifybanking.payeemanagement.web;
+package com.scrotifybanking.payeemanagement.util;
 
 /**
  * The type Scrotify constant.
@@ -118,7 +118,20 @@ public final class ScrotifyConstant {
 	 * The constant ACCOUNT_CREATED_MESSAGE.
 	 */
 	public static final String ADMIN_MESSAGE = "admin";
-	
+
+	/**
+	 * The constant BENEFICIARY_MESSAGE.
+	 */
+	public static final String BENEFICIARY_MESSAGE = "Beneficiary Account created successfully";
+	/**
+	 * The constant BENEFICIARY_MESSAGE.
+	 */
+	public static final String BENEFICIARY_EXCEED = "Number of beneficiary account exceeded for your account";
+	/**
+	 * The constant INVALID_BANK.
+	 */
+	public static final String INVALID_BANK = "Invalid ifsc code for bank name ";
+
 	
 
 	public static final String MORTGAGE_ACCOUNT_TYPE = "Mortgage";

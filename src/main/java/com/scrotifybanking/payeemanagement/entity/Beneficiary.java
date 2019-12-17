@@ -1,12 +1,20 @@
 package com.scrotifybanking.payeemanagement.entity;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * The type Account.
@@ -36,11 +44,12 @@ public class Beneficiary implements Serializable {
 
 	@Column(name = "nick_name")
 	private String nickName;
-
-	@OneToOne
-	@JoinColumn(name = "bankId")
-	private Bank bank;
-
+	@Column(name = "bank_name")
+	private String bankName;
+	@Column(name = "ibank_ifsccode")
+	private String bankIfscCode;
+	@Column(name="customer_id")
+	private Long customerId;
 	@ManyToOne
 	@JoinColumn(name = "customerId")
 	private Customer customer;

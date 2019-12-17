@@ -1,4 +1,4 @@
-package com.scrotifybanking.payeemanagement.web;
+package com.scrotifybanking.payeemanagement.util;
 
 /**
  * The type Scrotify constant.

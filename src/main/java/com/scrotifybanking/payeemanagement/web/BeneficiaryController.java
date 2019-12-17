@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * The type Beneficiary controller.
  */
 @RestController
-@RequestMapping("/payee")
+@RequestMapping("/payee/beneficiaries")
 @CrossOrigin
 public class BeneficiaryController {
 
@@ -28,7 +28,7 @@ public class BeneficiaryController {
      * @param deleteBeneficiaryDto the delete beneficiary dto
      * @return the response entity
      */
-    @DeleteMapping("/beneficiaries")
+    @DeleteMapping   
     public ResponseEntity<ApiResponse> deleteBeneficiary(@RequestBody DeleteBeneficiaryDto deleteBeneficiaryDto) {
         ApiResponse response = new ApiResponse();
         logger.info("Entering into delete Beneficiary ID :" + deleteBeneficiaryDto.getBeneficiaryId());
@@ -38,5 +38,15 @@ public class BeneficiaryController {
         logger.info("Deleted successfully ");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+	
+	@PutMapping
+public BeneficiaryUpdateResponseDto updateBeneficiary(@RequestBody BeneficiaryUpdateRequestDto beneficiaryUpdateRequestDto)
+		throws Exception {
+	BeneficiaryUpdateResponseDto beneficiaryUpdateResponseDto=beneficiaryService.updateBeneficiary(beneficiaryUpdateRequestDto);
+	beneficiaryUpdateResponseDto.setMessage("updated successfully");
+	beneficiaryUpdateResponseDto.setStatusCode(201);
+	return beneficiaryUpdateResponseDto;
 }
 
+
+}

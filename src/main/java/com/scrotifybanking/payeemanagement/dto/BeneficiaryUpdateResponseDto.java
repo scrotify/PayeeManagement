@@ -6,6 +6,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class BeneficiaryUpdateResponseDto {
-	private String message;
-	private Integer statusCode;
+    private String message;
+    private Integer statusCode;
 }

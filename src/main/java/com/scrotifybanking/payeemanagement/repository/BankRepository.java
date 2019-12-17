@@ -10,11 +10,11 @@ import java.util.Optional;
 @Repository
 public interface BankRepository extends JpaRepository<Bank, Long> {
 
-	
+
     Optional<List<Bank>> findByBankIfscCodeContains(String bankIfscCode);
 
- 
-  Optional<Bank> findByBankName(String bankName);
+
+    Optional<Bank> findByBankName(String bankName);
 
 
     Optional<Bank> findByBankIfscCode(String bankIfscCode);

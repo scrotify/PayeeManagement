@@ -1,4 +1,4 @@
-package com.scrotifybanking.payeemanagement.service;
+package com.scrotifybanking.payeemanagement.Service;
 
 public class BeneficiaryServiceTest {
 

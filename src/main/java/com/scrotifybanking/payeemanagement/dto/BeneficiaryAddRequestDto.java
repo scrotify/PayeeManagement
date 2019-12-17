@@ -8,12 +8,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class BeneficiaryAddRequestDto {
-	
-	private Long beneficiaryAccountNo;
-	private Double amountLimit;
-	private String beneficaryName;
-	private String nickName;
-	private String ifscCode;
-	private String bankName;
+
+    private Long beneficiaryAccountNo;
+    private Double amountLimit;
+    private String beneficaryName;
+    private String nickName;
+    private String ifscCode;
+    private String bankName;
 
 }

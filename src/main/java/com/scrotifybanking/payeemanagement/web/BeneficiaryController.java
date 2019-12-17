@@ -1,29 +1,8 @@
 package com.scrotifybanking.payeemanagement.web;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.scrotifybanking.payeemanagement.dto.BeneficiaryAddRequestDto;
-import com.scrotifybanking.payeemanagement.dto.BeneficiaryAddResponseDto;
-import com.scrotifybanking.payeemanagement.dto.ListBeneficiaryDto;
+import com.scrotifybanking.payeemanagement.dto.*;
 import com.scrotifybanking.payeemanagement.exception.CustomerNotFoundException;
 import com.scrotifybanking.payeemanagement.exception.InvalidBankException;
-import com.scrotifybanking.payeemanagement.service.BeneficiaryService;
-
-import com.scrotifybanking.payeemanagement.dto.ApiResponse;
-import com.scrotifybanking.payeemanagement.dto.BeneficiaryUpdateRequestDto;
-import com.scrotifybanking.payeemanagement.dto.BeneficiaryUpdateResponseDto;
-import com.scrotifybanking.payeemanagement.dto.DeleteBeneficiaryDto;
 import com.scrotifybanking.payeemanagement.service.BeneficiaryServiceImpl;
 import com.scrotifybanking.payeemanagement.util.ScrotifyConstant;
 import org.slf4j.Logger;
@@ -33,31 +12,30 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/beneficiaries")
 @CrossOrigin
 public class BeneficiaryController {
-	
-	 private static final Logger logger = LoggerFactory.getLogger(BeneficiaryController.class);
-	 
+
+    private static final Logger logger = LoggerFactory.getLogger(BeneficiaryController.class);
+
     @Autowired
     private BeneficiaryServiceImpl beneficiaryService;
 
-	@Autowired
-	BeneficiaryService beneficiaryService;
+    @PostMapping("/{customerId}")
+    public BeneficiaryAddResponseDto addBeneficiaryAccount(@PathVariable Long customerId,
+                                                           @RequestBody BeneficiaryAddRequestDto beneficiaryAddRequestDto)
+            throws InvalidBankException, CustomerNotFoundException {
+        return beneficiaryService.addBeneficiary(customerId, beneficiaryAddRequestDto);
+    }
 
-	@PostMapping("/{customerId}")
-	public BeneficiaryAddResponseDto addBeneficiaryAccount(@PathVariable Long customerId,
-			@RequestBody BeneficiaryAddRequestDto beneficiaryAddRequestDto)
-			throws InvalidBankException, CustomerNotFoundException {
-		return beneficiaryService.addBeneficiary(customerId, beneficiaryAddRequestDto);
-	}
-	
-	@GetMapping("/{customerId}")
-	public ResponseEntity<List<ListBeneficiaryDto>> viewBeneficiaries(@PathVariable("customerId") Long customerId) {
-	List<ListBeneficiaryDto> listBeneficiaryDto = beneficiaryService.viewBeneficiaries(customerId);
-	return new ResponseEntity<>(listBeneficiaryDto, HttpStatus.OK);
-	}
+    @GetMapping("/{customerId}")
+    public ResponseEntity<List<ListBeneficiaryDto>> viewBeneficiaries(@PathVariable("customerId") Long customerId) {
+        List<ListBeneficiaryDto> listBeneficiaryDto = beneficiaryService.viewBeneficiaries(customerId);
+        return new ResponseEntity<>(listBeneficiaryDto, HttpStatus.OK);
+    }
 
 
     /**
@@ -92,7 +70,6 @@ public class BeneficiaryController {
         beneficiaryUpdateResponseDto.setStatusCode(201);
         return beneficiaryUpdateResponseDto;
     }
-
 
 
 }

@@ -15,7 +15,12 @@ import java.io.Serializable;
 @SequenceGenerator(name = "seq", initialValue = 2000)
 public class Bank implements Serializable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
     @Column(name = "bank_id")
     private Long bankId;

@@ -118,13 +118,25 @@ public final class ScrotifyConstant {
 	 * The constant ACCOUNT_CREATED_MESSAGE.
 	 */
 	public static final String ADMIN_MESSAGE = "admin";
+
+	/**
+	 * The constant BENEFICIARY_MESSAGE.
+	 */
+	public static final String BENEFICIARY_MESSAGE = "Beneficiary Account created successfully";
+	/**
+	 * The constant BENEFICIARY_MESSAGE.
+	 */
+	public static final String BENEFICIARY_EXCEED = "Number of beneficiary account exceeded for your account";
+	/**
+	 * The constant INVALID_BANK.
+	 */
+	public static final String INVALID_BANK = "Invalid ifsc code for bank name ";
 	
-	
+	public static final String NO_BENEFICIARY_ADDED = "No beneficiaries have added";
 
 	public static final String MORTGAGE_ACCOUNT_TYPE = "Mortgage";
 
 	public static final String ACCOUNT_NOT_FOUND = "Account number not found";
-
 
 	private ScrotifyConstant() {
 

@@ -23,10 +23,10 @@ public class Beneficiary implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
 	@Column(name = "beneficiary_id")
-	private Long BeneficiaryId;
+	private Long beneficiaryId;
 
 	@Column(name = "beneficiary_account_no")
-	private Long BeneficiaryAccountNumber;
+	private Long beneficiaryAccountNumber;
 
 	@Column(name = "amount_limit")
 	private Double amountLimit;

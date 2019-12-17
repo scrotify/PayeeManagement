@@ -66,7 +66,7 @@ public class Customer implements Serializable {
 	@Column(name = "customer_city")
 	private String customerCity;
 
-	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
 	private List<Beneficiary> beneficiaries;
 
 }

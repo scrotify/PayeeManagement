@@ -19,6 +19,6 @@ public class BankDto {
 
     private Long bankPincode;
 
-    private Long bankAddress;
+    private String bankAddress;
 
 }

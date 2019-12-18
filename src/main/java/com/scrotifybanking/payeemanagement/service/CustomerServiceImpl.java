@@ -1,19 +1,19 @@
 package com.scrotifybanking.payeemanagement.service;
 
 
-import com.scrotifybanking.payeemanagement.dto.LoginRequestDto;
-import com.scrotifybanking.payeemanagement.dto.LoginResponseDto;
-import com.scrotifybanking.payeemanagement.entity.Customer;
-import com.scrotifybanking.payeemanagement.exception.CustomException;
-import com.scrotifybanking.payeemanagement.repository.CustomerRepository;
-import com.scrotifybanking.payeemanagement.util.ScrotifyConstant;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import com.scrotifybanking.payeemanagement.dto.LoginRequestDto;
+import com.scrotifybanking.payeemanagement.dto.LoginResponseDto;
+import com.scrotifybanking.payeemanagement.entity.Customer;
+import com.scrotifybanking.payeemanagement.repository.CustomerRepository;
+import com.scrotifybanking.payeemanagement.util.ScrotifyConstant;
 
 /**
  * The type Customer service.
@@ -34,7 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
      * This method is used to login a customer and admin
      */
     @Override
-    public Optional<LoginResponseDto> loginCustomer(LoginRequestDto loginRequestDto) throws CustomException {
+    public Optional<LoginResponseDto> loginCustomer(LoginRequestDto loginRequestDto) {
         logger.info("Login customer ");
         LoginResponseDto loginResponseDto = new LoginResponseDto();
         Optional<LoginResponseDto> loginResponseDtoOptional = Optional.empty();

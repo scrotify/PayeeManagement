@@ -102,10 +102,7 @@ public final class ScrotifyConstant {
 	 * The constant NOT_FOUND_CODE.
 	 */
 	public static final int NOT_FOUND_CODE = 404;
-	/**
-	 * The constant BALANCE_AMOUNT.
-	 */
-	public static final Double BALANCE_AMOUNT = 1000000.0;
+
 	/**
 	 * The constant ACCOUNT_CREATED_MESSAGE.
 	 */
@@ -142,6 +139,7 @@ public final class ScrotifyConstant {
 	public static final String UPDATED="updated successfully";
 	public static final String INVALID_IFSC_CODE_MESSAGE ="invalid ifsc code/ifsc code doesn't exit";
 	public static final String NO_BENEFICIARY="customer doesn't have beneficiary details";
+	public static final String NO_BANK="Bank not found";
 
 	private ScrotifyConstant() {
 

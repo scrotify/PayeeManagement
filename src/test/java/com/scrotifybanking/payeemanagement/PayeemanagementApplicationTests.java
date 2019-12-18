@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class PayeemanagementApplicationTests {
 
 	@Test
-	void contextLoads() {
+	void contextLoads() { //NOSONAR
 	}
 
 }

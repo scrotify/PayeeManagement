@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BeneficiaryRepository extends JpaRepository<Beneficiary, Long> {
 	
-	List<Beneficiary> findByCustomerCustomerIdAndBeneficiaryId(Long customerId, Long beneficiaryId);
+	Optional<Beneficiary> findByBeneficiaryIdAndCustomerCustomerId(Long customerId, Long beneficiaryId);
 
 
 	Beneficiary findByBeneficiaryAccountNumber(Long beneficiaryAccountNo);

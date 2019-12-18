@@ -19,6 +19,7 @@ import com.scrotifybanking.payeemanagement.entity.Bank;
 import com.scrotifybanking.payeemanagement.entity.Beneficiary;
 import com.scrotifybanking.payeemanagement.entity.Customer;
 import com.scrotifybanking.payeemanagement.exception.CommonException;
+import com.scrotifybanking.payeemanagement.exception.CustomException;
 import com.scrotifybanking.payeemanagement.exception.CustomerNotFoundException;
 import com.scrotifybanking.payeemanagement.exception.InvalidBankException;
 import com.scrotifybanking.payeemanagement.repository.BankRepository;
@@ -28,7 +29,8 @@ import com.scrotifybanking.payeemanagement.util.ScrotifyConstant;
 
 /**
  * The type Beneficiary Service
- * @author 
+ * 
+ * @author
  *
  */
 @Service
@@ -48,7 +50,6 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 	@Autowired
 	BankRepository bankRepository;
 
-	
 	/**
 	 * Ths method is used to view the beneficiary details
 	 */
@@ -95,12 +96,17 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 				beneficiary.setBeneficiaryAccountNumber(beneficiaryAddRequestDto.getBeneficiaryAccountNo());
 				beneficiary.setNickName(beneficiaryAddRequestDto.getNickName());
 				beneficiary.setCustomer(customer.get());
-				if (bank.get().getBankIfscCode().equalsIgnoreCase(beneficiaryAddRequestDto.getIfscCode())
-						&& bank.get().getBankName().equalsIgnoreCase(beneficiaryAddRequestDto.getBankName())) {
-					beneficiary.setBankIfscCode(beneficiaryAddRequestDto.getIfscCode());
-					beneficiary.setBankName(beneficiaryAddRequestDto.getBankName());
+				if (bank.isPresent()) {
+					if (bank.get().getBankIfscCode().equalsIgnoreCase(beneficiaryAddRequestDto.getIfscCode())
+							&& bank.get().getBankName().equalsIgnoreCase(beneficiaryAddRequestDto.getBankName())) {
+						beneficiary.setBankIfscCode(beneficiaryAddRequestDto.getIfscCode());
+						beneficiary.setBankName(beneficiaryAddRequestDto.getBankName());
+					} else {
+						throw new InvalidBankException(ScrotifyConstant.INVALID_BANK);
+					}
 				} else {
-					throw new InvalidBankException(ScrotifyConstant.INVALID_BANK);
+					beneficiaryAddResponseDto.setMessage(ScrotifyConstant.NO_BANK);
+					beneficiaryAddResponseDto.setStatusCode(ScrotifyConstant.NOT_FOUND_CODE);
 				}
 				beneficiaryRepository.save(beneficiary);
 				beneficiaryAddResponseDto.setBeneficiaryId(beneficiary.getBeneficiaryId());
@@ -128,37 +134,41 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 	@Transactional
 	@Override
 	public Optional<Boolean> deleteBeneficiaryById(Long beneficiaryId, Long customerId) {
-		logger.info("Deleting the beneficiary by id :" + beneficiaryId + " for " + customerId);
-		Optional<Integer> deleteOptional =  beneficiaryRepository
+		logger.info("Deleting the beneficiary by id :");
+		Optional<Integer> deleteOptional = beneficiaryRepository
 				.deleteByBeneficiaryIdAndCustomerCustomerId(beneficiaryId, customerId);
 		logger.info("Deleted the beneficiary ");
 		if (deleteOptional.isPresent()) {
 			return Optional.ofNullable(true);
-		}
+		}else {
 		return Optional.ofNullable(false);
+		}
 	}
 
 	/**
 	 * This method is used to update beneficiary account details
 	 */
 	@Override
-	public BeneficiaryUpdateResponseDto updateBeneficiary(BeneficiaryUpdateRequestDto beneficiaryUpdateRequestDto)
-			throws Exception {
+	public BeneficiaryUpdateResponseDto updateBeneficiary(BeneficiaryUpdateRequestDto beneficiaryUpdateRequestDto) {
 		logger.info("Entering into update beneficiary account service method");
 		BeneficiaryUpdateResponseDto beneficiaryUpdateResponseDto = new BeneficiaryUpdateResponseDto();
-		List<Beneficiary> optionalUser = beneficiaryRepository.findByCustomerCustomerIdAndBeneficiaryId(
+		Optional<Beneficiary> optionalUser = beneficiaryRepository.findByBeneficiaryIdAndCustomerCustomerId(
 				beneficiaryUpdateRequestDto.getCustomerId(), beneficiaryUpdateRequestDto.getBeneficiaryId());
-		if (optionalUser != null) {
-			Beneficiary beneficiary = optionalUser.get(0);
+		if (optionalUser.isPresent()) {
+			Beneficiary beneficiary = optionalUser.get();
 			if (beneficiaryUpdateRequestDto.getAccountNo() != null) {
 				beneficiary.setBeneficiaryAccountNumber(beneficiaryUpdateRequestDto.getAccountNo());
 				beneficiaryRepository.save(beneficiary);
 
+			}else {
+				beneficiaryUpdateResponseDto.setMessage("Account Number is not found");
 			}
 			if (beneficiaryUpdateRequestDto.getAmountLimit() != null) {
 				beneficiary.setAmountLimit(beneficiaryUpdateRequestDto.getAmountLimit());
 				beneficiaryRepository.save(beneficiary);
 
+			}else {
+				beneficiaryUpdateResponseDto.setMessage("Limit is exceeded");
 			}
 			List<Bank> bankDeatils = bankRepository.findAllByBankName(beneficiaryUpdateRequestDto.getBankName());
 			for (Bank banks : bankDeatils) {
@@ -168,11 +178,11 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 						beneficiaryRepository.save(beneficiary);
 
 					} else {
-						throw new Exception(ScrotifyConstant.INVALID_BANK_MESSAGE);
+						throw new CustomException(ScrotifyConstant.INVALID_BANK_MESSAGE);
 					}
 
 				}else {
-					throw new Exception("");
+					beneficiaryUpdateResponseDto.setMessage("Bank name is not equal");
 				}
 				if (beneficiaryUpdateRequestDto.getBankIfscCode() != null) {
 					if (banks.getBankIfscCode().equalsIgnoreCase(beneficiaryUpdateRequestDto.getBankIfscCode())) {
@@ -180,13 +190,13 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 						beneficiaryRepository.save(beneficiary);
 						beneficiaryUpdateResponseDto.setMessage(ScrotifyConstant.UPDATED);
 					} else {
-						throw new Exception(ScrotifyConstant.INVALID_IFSC_CODE_MESSAGE);
+						throw new CustomException(ScrotifyConstant.INVALID_IFSC_CODE_MESSAGE);
 					}
 
 				}
 			}
 		} else {
-			throw new Exception(ScrotifyConstant.NO_BENEFICIARY);
+			throw new CustomException(ScrotifyConstant.NO_BENEFICIARY);
 		}
 		return beneficiaryUpdateResponseDto;
 	}

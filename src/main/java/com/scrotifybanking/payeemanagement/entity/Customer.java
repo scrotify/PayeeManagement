@@ -14,8 +14,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * The type Customer.
@@ -23,7 +24,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "customer")
 @Entity
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @SequenceGenerator(name = "seq", initialValue = 1000)
 public class Customer implements Serializable {
 	private static final long serialVersionUID = 1L;

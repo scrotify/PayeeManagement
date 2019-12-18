@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories
 public class PayeemanagementApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) {//NOSONAR
 		SpringApplication.run(PayeemanagementApplication.class, args);
 	}
 

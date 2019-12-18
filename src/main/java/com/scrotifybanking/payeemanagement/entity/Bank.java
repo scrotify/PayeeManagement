@@ -1,17 +1,24 @@
 package com.scrotifybanking.payeemanagement.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "banks")
 @NoArgsConstructor
-@AllArgsConstructor
-@Data
+@Setter
+@Getter
 @SequenceGenerator(name = "seq", initialValue = 2000)
 public class Bank implements Serializable {
 

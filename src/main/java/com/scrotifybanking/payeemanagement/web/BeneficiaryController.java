@@ -87,7 +87,7 @@ public class BeneficiaryController {
         DeleteBeneficiaryDto deleteBeneficiaryDto = new DeleteBeneficiaryDto();
         deleteBeneficiaryDto.setBeneficiaryId(beneficiaryId);
         deleteBeneficiaryDto.setCustomerId(customerId);
-        logger.info("Entering into delete Beneficiary ID :" + deleteBeneficiaryDto.getBeneficiaryId());
+        logger.info("Entering into delete Beneficiary ID :");
         Optional<Boolean> deletedSrc = beneficiaryService.deleteBeneficiaryById(deleteBeneficiaryDto.getBeneficiaryId(), deleteBeneficiaryDto.getCustomerId());
         if ( deletedSrc.isPresent() ) {
          response.setMessage(ScrotifyConstant.SUCCESS_MESSAGE);
@@ -108,8 +108,7 @@ public class BeneficiaryController {
      * @throws Exception the exception
      */
     @PutMapping("")
-    public BeneficiaryUpdateResponseDto updateBeneficiary(@RequestBody BeneficiaryUpdateRequestDto beneficiaryUpdateRequestDto)
-            throws Exception {
+    public BeneficiaryUpdateResponseDto updateBeneficiary(@RequestBody BeneficiaryUpdateRequestDto beneficiaryUpdateRequestDto){
     	logger.info("Entering into update beneficiary account controller method");
         BeneficiaryUpdateResponseDto beneficiaryUpdateResponseDto = beneficiaryService.updateBeneficiary(beneficiaryUpdateRequestDto);
         beneficiaryUpdateResponseDto.setMessage(ScrotifyConstant.UPDATED);

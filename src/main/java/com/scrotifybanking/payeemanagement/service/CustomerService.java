@@ -20,7 +20,7 @@ public interface CustomerService {
      * @return the optional
      * @throws CustomException the custom exception
      */
-    public Optional<LoginResponseDto> loginCustomer(LoginRequestDto loginRequestDto) throws CustomException;
+    public Optional<LoginResponseDto> loginCustomer(LoginRequestDto loginRequestDto);
 
 
 }

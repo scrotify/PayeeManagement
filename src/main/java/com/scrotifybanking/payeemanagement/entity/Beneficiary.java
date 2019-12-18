@@ -12,18 +12,18 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * The type Account.
  */
 @Entity
 @Table(name = "beneficiary")
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @SequenceGenerator(name = "seq", initialValue = 30001)
 public class Beneficiary implements Serializable {
 	private static final long serialVersionUID = 1L;

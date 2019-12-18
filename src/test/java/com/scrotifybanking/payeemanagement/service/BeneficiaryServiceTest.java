@@ -46,50 +46,109 @@ public class BeneficiaryServiceTest {
 	BeneficiaryUpdateRequestDto beneficiaryUpdateRequestDto = null;
 
 	BeneficiaryUpdateResponseDto beneficiaryUpdateResponseDto = null;
+	
 	Beneficiary beneficiary = null;
+	
+	Customer customer = null;
+	
 	Bank bank = null;
 
 	@Before
 	public void setUp() {
-		Customer customer = new Customer();
+		customer = new Customer();
 		customer.setCustomerId(200L);
+
+		bank = new Bank();
+		bank.setBankIfscCode("sbin0009293");
+		bank.setBankName("SBI");
+
+		beneficiary = new Beneficiary();
+		beneficiary.setAmountLimit(10000.0);
+		beneficiary.setBankIfscCode("sbin0009293");
+		beneficiary.setBankName("SBI");
+		beneficiary.setBeneficaryName("Visha");
+		beneficiary.setBeneficiaryAccountNumber(12345L);
+		beneficiary.setBeneficiaryId(1L);
+		beneficiary.setCustomer(customer);
+		beneficiary.setNickName("Visha");
+
 		beneficiaryUpdateRequestDto = new BeneficiaryUpdateRequestDto();
 		beneficiaryUpdateRequestDto.setAccountNo(348266169L);
 		beneficiaryUpdateRequestDto.setAmountLimit(20000.44);
 		beneficiaryUpdateRequestDto.setBankIfscCode("sbin0009293");
 		beneficiaryUpdateRequestDto.setBankName("sbi");
 		beneficiaryUpdateRequestDto.setCustomerId(200L);
+		
 		beneficiaryUpdateResponseDto = new BeneficiaryUpdateResponseDto();
-		beneficiaryUpdateResponseDto.setMessage("updated successfully");
+		beneficiaryUpdateResponseDto.setMessage(ScrotifyConstant.UPDATED);
 		beneficiaryUpdateResponseDto.setStatusCode(201);
-		beneficiary = new Beneficiary();
-		beneficiary.setBeneficiaryId(1L);
-		beneficiary.setBankName("sbi");
-		beneficiary.setAmountLimit(20000.44);
-		beneficiary.setBeneficiaryAccountNumber(348266169L);
-		beneficiary.setBankIfscCode("sbin0009293");
-		beneficiary.setCustomer(customer);
-		bank = new Bank();
-		bank.setBankName("sbi");
-		bank.setBankIfscCode("sbin0009293");
-		bank.setBankAddress("aaa");
-		bank.setBankBranch("aaa");
-		bank.setBankPincode(12222L);
+		
 		
 	}
 
-//	@Test
-//	public void testUpdateBeneficiary() throws Exception {
-//		List<Beneficiary> customers = new ArrayList<>();
-//		customers.add(beneficiary);
-//		List<Bank> banks = new ArrayList<>();
-//		banks.add(bank);
-//		Mockito.when(beneficiaryRepository.findByCustomerCustomerIdAndBeneficiaryId(200L, 1L)).thenReturn(customers);
-//		
-//		Mockito.when(bankRepository.findAllByBankName("sbi")).thenReturn(banks);
-//		BeneficiaryUpdateResponseDto response = beneficiaryServiceImpl.updateBeneficiary(beneficiaryUpdateRequestDto);
-//		assertEquals(ScrotifyConstant.UPDATED, response.getMessage());
-//	}
+	@Test(expected = Exception.class)
+	public void testUpdateBeneficiaryForException() throws Exception {
+		List<Beneficiary> beneficiaries = new ArrayList<>();
+		beneficiaries.add(beneficiary);
+		List<Bank> banks = new ArrayList<>();
+		banks.add(bank);
+		
+		Mockito.when(beneficiaryRepository.findByBeneficiaryIdAndCustomerCustomerId(1L, 1L)).thenReturn(Optional.of(beneficiary));
+		Mockito.when(bankRepository.findAllByBankName("SBI")).thenReturn(banks);
+		BeneficiaryUpdateResponseDto response = beneficiaryServiceImpl.updateBeneficiary(beneficiaryUpdateRequestDto);
+		
+		assertEquals(ScrotifyConstant.NO_BENEFICIARY, response.getMessage());
+		
+	}
+	
+
+	@Test(expected = Exception.class)
+	public void testUpdateBeneficiaryForInvalidIfsc() throws Exception {
+		List<Beneficiary> beneficiaries = new ArrayList<>();
+		beneficiaries.add(beneficiary);
+		Bank banks = new Bank();
+		banks.setBankIfscCode("sbi1000");
+		banks.setBankName("SBI");
+		List<Bank> bank = new ArrayList<>();
+		bank.add(banks);
+		
+		Mockito.when(beneficiaryRepository.findByBeneficiaryIdAndCustomerCustomerId(beneficiaryUpdateRequestDto.getCustomerId(), beneficiaryUpdateRequestDto.getBeneficiaryId())).thenReturn(Optional.of(beneficiary));
+		Mockito.when(bankRepository.findAllByBankName("sbi")).thenReturn(bank);
+		BeneficiaryUpdateResponseDto response = beneficiaryServiceImpl.updateBeneficiary(beneficiaryUpdateRequestDto);
+		
+		assertEquals(ScrotifyConstant.INVALID_IFSC_CODE_MESSAGE, response.getMessage());
+		
+	}
+	
+	@Test
+	public void testUpdateBeneficiary() throws Exception {
+		List<Beneficiary> beneficiaries = new ArrayList<>();
+		beneficiaries.add(beneficiary);
+		List<Bank> banks = new ArrayList<>();
+		banks.add(bank);
+		
+		Mockito.when(beneficiaryRepository.findByBeneficiaryIdAndCustomerCustomerId(beneficiaryUpdateRequestDto.getCustomerId(), beneficiaryUpdateRequestDto.getBeneficiaryId())).thenReturn(Optional.of(beneficiary));
+		Mockito.when(bankRepository.findAllByBankName("sbi")).thenReturn(banks);
+		BeneficiaryUpdateResponseDto response = beneficiaryServiceImpl.updateBeneficiary(beneficiaryUpdateRequestDto);
+		
+		assertEquals(ScrotifyConstant.UPDATED, response.getMessage());
+		
+	}
+	
+	@Test(expected = Exception.class)
+	public void testUpdateBeneficiaryForInvalidBank() throws Exception {
+		List<Beneficiary> beneficiaries = new ArrayList<>();
+		beneficiaries.add(beneficiary);
+		List<Bank> banks = new ArrayList<>();
+		banks.add(bank);
+		beneficiaryUpdateRequestDto.setBankName("icici");
+		Mockito.when(beneficiaryRepository.findByBeneficiaryIdAndCustomerCustomerId(beneficiaryUpdateRequestDto.getCustomerId(), beneficiaryUpdateRequestDto.getBeneficiaryId())).thenReturn(Optional.of(beneficiary));
+		Mockito.when(bankRepository.findAllByBankName("icici")).thenReturn(banks);
+		BeneficiaryUpdateResponseDto response = beneficiaryServiceImpl.updateBeneficiary(beneficiaryUpdateRequestDto);
+		
+		assertEquals(ScrotifyConstant.INVALID_BANK_MESSAGE, response.getMessage());
+		
+	}
 
 	@Test
 	public void testAddBeneficiaryAccount() throws InvalidBankException, CustomerNotFoundException {
@@ -173,5 +232,47 @@ public class BeneficiaryServiceTest {
 		assertEquals(ScrotifyConstant.CUSTOMER_ID_NOT_FOUND, result.getMessage());
 
 	}
+	
+	@Test(expected = InvalidBankException.class)
+	public void testAddBeneficiaryAccountForInvalidBank() throws InvalidBankException, CustomerNotFoundException {
+		Customer customer = new Customer();
+		customer.setCustomerId(1L);
+
+		Bank bank = new Bank();
+		bank.setBankIfscCode("SBI1000");
+		bank.setBankName("SBI");
+
+		Beneficiary beneficiary = new Beneficiary();
+		beneficiary.setAmountLimit(10000.0);
+		beneficiary.setBankIfscCode("ICICI001");
+		beneficiary.setBankName("ICICI");
+		beneficiary.setBeneficaryName("Visha");
+		beneficiary.setBeneficiaryAccountNumber(12345L);
+		beneficiary.setBeneficiaryId(1L);
+		beneficiary.setCustomer(customer);
+		beneficiary.setNickName("Visha");
+
+		BeneficiaryAddRequestDto beneficiaryAddRequestDto = new BeneficiaryAddRequestDto();
+		beneficiaryAddRequestDto.setAmountLimit(beneficiary.getAmountLimit());
+		beneficiaryAddRequestDto.setBankName(beneficiary.getBankName());
+		beneficiaryAddRequestDto.setBeneficaryName(beneficiary.getBeneficaryName());
+		beneficiaryAddRequestDto.setBeneficiaryAccountNo(beneficiary.getBeneficiaryAccountNumber());
+		beneficiaryAddRequestDto.setIfscCode(beneficiary.getBankIfscCode());
+		beneficiaryAddRequestDto.setNickName(beneficiary.getNickName());
+
+		BeneficiaryAddResponseDto beneficiaryAddResponseDto = new BeneficiaryAddResponseDto();
+		beneficiaryAddResponseDto.setBeneficiaryId(100L);
+		beneficiaryAddResponseDto.setMessage(ScrotifyConstant.BENEFICIARY_MESSAGE);
+		beneficiaryAddResponseDto.setStatusCode(ScrotifyConstant.CREATED_CODE);
+
+		Mockito.when(customerRepository.findByCustomerId(1L)).thenReturn(Optional.of(customer));
+		Mockito.when(bankRepository.findByBankIfscCode("ICICI001")).thenReturn(Optional.of(bank));
+		Mockito.when(beneficiaryRepository.save(beneficiary)).thenReturn(beneficiary);
+		BeneficiaryAddResponseDto result = beneficiaryServiceImpl.addBeneficiary(1L, beneficiaryAddRequestDto);
+
+		assertEquals(ScrotifyConstant.INVALID_BANK, result.getMessage());
+
+	}
+	
 
 }

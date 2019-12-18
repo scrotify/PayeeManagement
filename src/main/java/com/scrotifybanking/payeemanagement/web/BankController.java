@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * The type Fund transfer controller.
+ * The type Fund bank controller.
  */
 @RestController
 @RequestMapping("/bank")

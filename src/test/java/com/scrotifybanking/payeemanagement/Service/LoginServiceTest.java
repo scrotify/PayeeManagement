@@ -1,4 +1,4 @@
-package com.scrotifybanking.payeemanagement.Service;
+package com.scrotifybanking.payeemanagement.service;
 
 import com.scrotifybanking.payeemanagement.dto.LoginRequestDto;
 import com.scrotifybanking.payeemanagement.dto.LoginResponseDto;

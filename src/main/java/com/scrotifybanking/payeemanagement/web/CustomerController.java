@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+/**
+ * The type Customer Controller
+ * @author User1
+ *
+ */
 @RestController
 @RequestMapping("/customers")
 @CrossOrigin
@@ -22,6 +27,11 @@ public class CustomerController {
     @Autowired
     private CustomerServiceImpl customerService;
 
+    /**
+     * This method is used for login
+     * @param loginRequestDto
+     * @return the response entity
+     */
     @PostMapping
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
         logger.info("login controller");

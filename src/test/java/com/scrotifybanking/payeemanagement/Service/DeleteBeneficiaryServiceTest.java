@@ -1,4 +1,4 @@
-package com.scrotifybanking.payeemanagement.Service;
+package com.scrotifybanking.payeemanagement.service;
 
 import com.scrotifybanking.payeemanagement.repository.BankRepository;
 import com.scrotifybanking.payeemanagement.repository.BeneficiaryRepository;
@@ -29,7 +29,7 @@ public class DeleteBeneficiaryServiceTest {
 
     @Test
     public void testDeleteBeneficiary() {
-        Optional<Boolean> deleteOptional = Optional.ofNullable(true);
+        Optional<Integer> deleteOptional = Optional.ofNullable(1);
         Mockito.when(beneficiaryRepository.deleteByBeneficiaryIdAndCustomerCustomerId(anyLong(), anyLong()))
                 .thenReturn(deleteOptional);
         Optional<Boolean> res = beneficiaryService.deleteBeneficiaryById(10L, 100L);
@@ -38,10 +38,10 @@ public class DeleteBeneficiaryServiceTest {
 
     @Test
     public void testDeleteBeneficiaryFalse() {
-        Optional<Boolean> deleteOptional = Optional.ofNullable(false);
+        Optional<Integer> deleteOptional = Optional.ofNullable(0);
         Mockito.when(beneficiaryRepository.deleteByBeneficiaryIdAndCustomerCustomerId(anyLong(), anyLong()))
                 .thenReturn(deleteOptional);
         Optional<Boolean> res = beneficiaryService.deleteBeneficiaryById(10L, 100L);
-        Assert.assertFalse(res.get());
+        Assert.assertNotNull(res);
     }
 }

@@ -1,10 +1,10 @@
 package com.scrotifybanking.payeemanagement.web;
 
-import static org.hamcrest.CoreMatchers.any;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 
 import java.util.Optional;
-import static org.mockito.ArgumentMatchers.anyLong;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,7 +29,6 @@ import com.scrotifybanking.payeemanagement.exception.CustomerNotFoundException;
 import com.scrotifybanking.payeemanagement.exception.InvalidBankException;
 import com.scrotifybanking.payeemanagement.service.BeneficiaryServiceImpl;
 import com.scrotifybanking.payeemanagement.util.ScrotifyConstant;
-import static org.mockito.ArgumentMatchers.any;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BeneficiaryControllerTest {

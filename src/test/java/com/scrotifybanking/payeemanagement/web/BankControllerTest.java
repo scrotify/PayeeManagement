@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.ResponseEntity;
 
 import com.scrotifybanking.payeemanagement.dto.BankDto;
 import com.scrotifybanking.payeemanagement.entity.Bank;
@@ -40,7 +41,9 @@ public class BankControllerTest {
 		bankDto.setBankName(bank.getBankName());
 		bankDto.setBankPincode(bank.getBankPincode());
 		
-		assertNotNull(bankDto);
+		Mockito.when(bankService.getBankByIfscCode(bankDto.getBankIfscCode())).thenReturn(bankDto);
+		ResponseEntity<BankDto> result = bankController.getBankDetailsByIfscCode(bankDto.getBankIfscCode());
+		assertNotNull(result);
 	}
 
 }

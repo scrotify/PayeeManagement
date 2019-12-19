@@ -161,14 +161,14 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 				beneficiaryRepository.save(beneficiary);
 
 			}else {
-				beneficiaryUpdateResponseDto.setMessage("Account Number is not found");
+				beneficiaryUpdateResponseDto.setMessage(ScrotifyConstant.EMPTY_ACCOUNT_NO);
 			}
 			if (beneficiaryUpdateRequestDto.getAmountLimit() != null) {
 				beneficiary.setAmountLimit(beneficiaryUpdateRequestDto.getAmountLimit());
 				beneficiaryRepository.save(beneficiary);
 
 			}else {
-				beneficiaryUpdateResponseDto.setMessage("Limit is exceeded");
+				beneficiaryUpdateResponseDto.setMessage(ScrotifyConstant.EMPTY_AMOUNT_LIMIT);
 			}
 			List<Bank> bankDeatils = bankRepository.findAllByBankName(beneficiaryUpdateRequestDto.getBankName());
 			for (Bank banks : bankDeatils) {
@@ -182,7 +182,7 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 					}
 
 				}else {
-					beneficiaryUpdateResponseDto.setMessage("Bank name is not equal");
+					beneficiaryUpdateResponseDto.setMessage(ScrotifyConstant.EMPTY_BANK);
 				}
 				if (beneficiaryUpdateRequestDto.getBankIfscCode() != null) {
 					if (banks.getBankIfscCode().equalsIgnoreCase(beneficiaryUpdateRequestDto.getBankIfscCode())) {
@@ -193,6 +193,8 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 						throw new CustomException(ScrotifyConstant.INVALID_IFSC_CODE_MESSAGE);
 					}
 
+				}else {
+					beneficiaryUpdateResponseDto.setMessage(ScrotifyConstant.EMPTY_IFSC_CODE);
 				}
 			}
 		} else {

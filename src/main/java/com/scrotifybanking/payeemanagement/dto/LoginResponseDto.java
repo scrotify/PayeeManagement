@@ -12,8 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class LoginResponseDto {
 
-	
-
 	private Integer statusCode;
 	private String message;
 }

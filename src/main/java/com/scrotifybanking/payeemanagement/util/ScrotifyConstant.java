@@ -141,6 +141,14 @@ public final class ScrotifyConstant {
 	public static final String NO_BENEFICIARY="customer doesn't have beneficiary details";
 	public static final String NO_BANK="Bank not found";
 
+	public static final String EMPTY_IFSC_CODE = "you are leaving empty, please provide the ifsc code";
+
+	public static final String EMPTY_BANK = "you are leaving empty, please provide the bank name";
+
+	public static final String EMPTY_AMOUNT_LIMIT = "you are leaveing empty";
+
+	public static final String EMPTY_ACCOUNT_NO = "you are leaveing empty, please enter the account number";
+
 	private ScrotifyConstant() {
 
 	}
